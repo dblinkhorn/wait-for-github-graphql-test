@@ -16,6 +16,10 @@ jobs:
       - name: Run Tests (Success Example)
         run: echo "Running Tests - Success Case"
     
+      - name: Run Tests (Failure Example)
+        run: exit 1
+        if: always()
+    
       - name: Conditional Step
         if: success()
         run: echo "Only Runs on Success"
