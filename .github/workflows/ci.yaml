@@ -15,11 +15,7 @@ jobs:
 
       - name: Run Tests (Success Example)
         run: echo "Running Tests - Success Case"
-    
-      - name: Conditional Step
-        if: success()
-        run: echo "Only Runs on Success"
 
       - name: Skipped Step
-        if: failure()
+        if: always()
         run: echo "This step should be skipped"
