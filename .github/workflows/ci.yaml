@@ -30,7 +30,9 @@ jobs:
 
   statuses:
     runs-on: ubuntu-latest
-
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     steps:
       - name: Set Deployment Status
         run: |
