@@ -10,12 +10,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Set Status Context
+        run: |
+          echo "Setting a status context..."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run Tests (Success Example)
-        run: echo "Running Tests - Success Case"
+      - name: Run Linter
+        run: |
+          echo "Running linter..."
+          exit 1 # Simulate a failure for this check run
 
-      - name: Skipped Step
-        if: always()
-        run: echo "This step should be skipped"
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          echo "Tests passed successfully"
+
+      - name: Build Project
+        run: |
+          echo "Building the project..."
+          sleep 10 # Simulate a long-running check
