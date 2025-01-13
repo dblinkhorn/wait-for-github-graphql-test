@@ -10,23 +10,48 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Status Context
-        run: |
-          echo "Setting a status context..."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Run Linter
         run: |
           echo "Running linter..."
-          exit 1 # Simulate a failure for this check run
+          sleep 3
+          echo "Linter passed!"
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: |
           echo "Running tests..."
-          echo "Tests passed successfully"
+          sleep 3
+          echo "All tests passed!"
 
       - name: Build Project
         run: |
-          echo "Building the project..."
-          sleep 10 # Simulate a long-running check
+          echo "Building project..."
+          sleep 3
+          echo "Build successful!"
+
+  statuses:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set Deployment Status
+        run: |
+          gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="deployment" \
+            -f description="Deployment succeeded" \
+            -f target_url="https://example.com/deployment"
+
+      - name: Set Security Check Status
+        run: |
+          gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="security-check" \
+            -f description="Security check passed" \
+            -f target_url="https://example.com/security"
+
+      - name: Set Code Coverage Status
+        run: |
+          gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="code-coverage" \
+            -f description="Code coverage is sufficient" \
+            -f target_url="https://example.com/coverage"
