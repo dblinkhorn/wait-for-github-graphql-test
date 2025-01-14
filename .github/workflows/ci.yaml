@@ -51,7 +51,7 @@ jobs:
       - name: Set Security Check Status
         run: |
           gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -f state=failure \ # Set this status to fail
+            -f state=failure \
             -f context="security-check" \
             -f description="Security check failed" \
             -f target_url="https://example.com/security"
