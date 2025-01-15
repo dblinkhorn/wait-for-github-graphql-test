@@ -23,11 +23,17 @@ jobs:
           echo "Building project..."
           sleep 3
           echo "Build successful!"
-    #   - name: Failing Check
-    #     run: |
-    #       echo "Simulating a failing check..."
-    #       sleep 3
-    #       exit 1 # Force failure
+      # - name: Failing Check
+      #   run: |
+      #     echo "Simulating a failing check..."
+      #     sleep 3
+      #     exit 1 # Force failure
+      - name: Skipped Step
+        run: |
+          echo "This step will be skipped."
+          exit 78 # GitHub Actions reserved exit code for skipping
+        continue-on-error: true
+
   statuses:
     runs-on: ubuntu-latest
     env:
@@ -41,13 +47,13 @@ jobs:
             -f context="deployment" \
             -f description="Deployment succeeded" \
             -f target_url="https://example.com/deployment"
-    #   - name: Set Security Check Status
-    #     run: |
-    #       gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
-    #         -f state=failure \
-    #         -f context="security-check" \
-    #         -f description="Security check failed" \
-    #         -f target_url="https://example.com/security"
+      # - name: Set Security Check Status
+      #   run: |
+      #     gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+      #       -f state=failure \
+      #       -f context="security-check" \
+      #       -f description="Security check failed" \
+      #       -f target_url="https://example.com/security"
       - name: Set Code Coverage Status
         run: |
           gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
